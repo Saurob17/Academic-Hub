@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeRank - Login Portal</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navigation */
+      .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+   .nav-container {
+  display: flex;
+  align-items: center;
+  width: 100%; /* parent পুরো জায়গা নেবে */
+  padding-right: 20px;
+}
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+        padding-left: 20px;
+      }
+
+ .nav-links {
+  display: flex;
+  gap: 30px;
+  justify-content: flex-end; /* ডান দিকে শুরু হবে */
+  flex: 1; /* parent এর বাকি space নিয়ে নিবে */
+}
+
+      .nav-links a {
+        text-decoration: none;
+        color: #2c3e50;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+ 
+
+      .nav-links a:hover {
+        color: #180ae7;
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      .login-wrapper {
+        display: flex;
+        gap: 30px;
+        max-width: 1000px;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .login-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 100%;
+        max-width: 450px;
+        min-width: 350px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .login-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .card-header {
+        padding: 30px 20px 20px;
+        text-align: center;
+        position: relative;
+      }
+
+      .student-header {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+      }
+
+      .teacher-header {
+        background: linear-gradient(135deg, #3498db, #3498db);
+        color: white;
+      }
+
+      .card-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+      }
+
+      .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .card-subtitle {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .form-container {
+        padding: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 14px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #3498db;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .student-btn {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+      }
+
+      .teacher-btn {
+        background: linear-gradient(135deg, #3498db, #3498db);
+        color: white;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .forgot-password {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .forgot-password a {
+        color: #3498db;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .forgot-password a:hover {
+        text-decoration: underline;
+      }
+
+      .success-message,
+      .error-message {
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      /* Footer */
+      .footer {
+        background: rgba(44, 62, 80, 0.95);
+        color: white;
+        padding: 30px 0;
+        text-align: center;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #3498db;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .login-wrapper {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .nav-container {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .nav-links {
+          gap: 20px;
+        }
+
+        .footer-links {
+          flex-direction: column;
+          gap: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">🎓AcademicHub</div>
+        <div id="nav-element" class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#courses">Courses</a>
+          <a href="#contact">Contact</a>
+          <a href="#help">Help</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="login-wrapper">
+        <!-- Student Login Card -->
+        <div class="login-card">
+          <div class="card-header student-header">
+            <div class="card-icon">🎓</div>
+            <div class="card-title">Student Login</div>
+            <div class="card-subtitle">Access your coding journey</div>
+          </div>
+          <div class="form-container">
+            <div id="student-success" class="success-message"></div>
+            <div id="student-error" class="error-message"></div>
+            <form onsubmit="return handleStudentLogin(event)">
+              <div class="form-group">
+                <label for="student-email">Email Address</label>
+                <input
+                  type="email"
+                  id="student-email"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="student-password">Password</label>
+                <input
+                  type="password"
+                  id="student-password"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="submit-btn student-btn">
+                Sign In as Student
+              </button>
+            </form>
+            <div class="forgot-password">
+              <a href="#forgot">Forgot your password?</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teacher Login Card -->
+        <div class="login-card">
+          <div class="card-header teacher-header">
+            <div class="card-icon">👨‍🏫</div>
+            <div class="card-title">Teacher Login</div>
+            <div class="card-subtitle">Manage and guide students</div>
+          </div>
+          <div class="form-container">
+            <div id="teacher-success" class="success-message"></div>
+            <div id="teacher-error" class="error-message"></div>
+            <form onsubmit="return handleTeacherLogin(event)">
+              <div class="form-group">
+                <label for="teacher-id">Teacher ID</label>
+                <input
+                  type="text"
+                  id="teacher-id"
+                  placeholder="Enter your Teacher ID"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="teacher-password">Password</label>
+                <input
+                  type="password"
+                  id="teacher-password"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="submit-btn teacher-btn">
+                Sign In as Teacher
+              </button>
+            </form>
+            <div class="forgot-password">
+              <a href="#forgot">Forgot your password?</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-links">
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#terms">Terms of Service</a>
+          <a href="#support">Support</a>
+          <a href="#careers">Careers</a>
+          <a href="#blog">Blog</a>
+          <a href="#api">API</a>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2025 CodeRank. All rights reserved. | Empowering coders
+            worldwide
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
