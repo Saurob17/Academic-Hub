@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodeRank - Login Portal</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
+      * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -29,39 +24,11 @@
         top: 0;
         z-index: 100;
       }
-
-   .nav-container {
-  display: flex;
-  align-items: center;
-  width: 100%; /* parent পুরো জায়গা নেবে */
-  padding-right: 20px;
-}
-      .logo {
-        font-size: 24px;
-        font-weight: bold;
-        color: #2c3e50;
-        padding-left: 20px;
-      }
-
- .nav-links {
-  display: flex;
-  gap: 30px;
-  justify-content: flex-end; /* ডান দিকে শুরু হবে */
-  flex: 1; /* parent এর বাকি space নিয়ে নিবে */
-}
-
-      .nav-links a {
-        text-decoration: none;
-        color: #2c3e50;
-        font-weight: 500;
-        transition: color 0.3s ease;
-      }
-
- 
-
-      .nav-links a:hover {
-        color: #180ae7;
-      }
+      .nav-container { display: flex; align-items: center; width: 100%; padding-right: 20px; }
+      .logo { font-size: 24px; font-weight: bold; color: #2c3e50; padding-left: 20px; }
+      .nav-links { display: flex; gap: 30px; justify-content: flex-end; flex: 1; }
+      .nav-links a { text-decoration: none; color: #2c3e50; font-weight: 500; transition: color 0.3s ease; }
+      .nav-links a:hover { color: #180ae7; }
 
       /* Main Content */
       .main-content {
@@ -71,7 +38,6 @@
         justify-content: center;
         padding: 40px 20px;
       }
-
       .login-wrapper {
         display: flex;
         gap: 30px;
@@ -80,7 +46,6 @@
         flex-wrap: wrap;
         justify-content: center;
       }
-
       .login-card {
         background: white;
         border-radius: 12px;
@@ -91,63 +56,17 @@
         min-width: 350px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
-
-      .login-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-      }
-
-      .card-header {
-        padding: 30px 20px 20px;
-        text-align: center;
-        position: relative;
-      }
-
-      .student-header {
-        background: linear-gradient(135deg, #3498db, #2980b9);
-        color: white;
-      }
-
-      .teacher-header {
-        background: linear-gradient(135deg, #3498db, #3498db);
-        color: white;
-      }
-
-      .card-icon {
-        font-size: 48px;
-        margin-bottom: 15px;
-      }
-
-      .card-title {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-
-      .card-subtitle {
-        font-size: 14px;
-        opacity: 0.9;
-      }
-
-      .form-container {
-        padding: 30px;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #2c3e50;
-        font-size: 14px;
-      }
-
-      input[type="text"],
-      input[type="email"],
-      input[type="password"] {
+      .login-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); }
+      .card-header { padding: 30px 20px 20px; text-align: center; position: relative; }
+      .student-header { background: linear-gradient(135deg, #3498db, #2980b9); color: white; }
+      .teacher-header { background: linear-gradient(135deg, #3498db, #3498db); color: white; }
+      .card-icon { font-size: 48px; margin-bottom: 15px; }
+      .card-title { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+      .card-subtitle { font-size: 14px; opacity: 0.9; }
+      .form-container { padding: 30px; }
+      .form-group { margin-bottom: 20px; }
+      label { display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50; font-size: 14px; }
+      input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
         width: 100%;
         padding: 12px 16px;
         border: 2px solid #e9ecef;
@@ -156,14 +75,12 @@
         transition: all 0.3s ease;
         background: #f8f9fa;
       }
-
       input:focus {
         outline: none;
         border-color: #3498db;
         background: white;
         box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
       }
-
       .submit-btn {
         width: 100%;
         padding: 14px;
@@ -175,121 +92,34 @@
         transition: all 0.3s ease;
         margin-top: 10px;
       }
-
-      .student-btn {
-        background: linear-gradient(135deg, #3498db, #2980b9);
-        color: white;
+      .student-btn { background: linear-gradient(135deg, #3498db, #2980b9); color: white; }
+      .teacher-btn { background: linear-gradient(135deg, #3498db, #3498db); color: white; }
+      .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); }
+      .submit-btn:active { transform: translateY(0); }
+      .forgot-password { text-align: center; margin-top: 20px; }
+      .forgot-password a { color: #3498db; text-decoration: none; font-size: 14px; }
+      .forgot-password a:hover { text-decoration: underline; }
+      .success-message, .error-message {
+        padding: 12px; border-radius: 6px; margin-bottom: 20px;
+        font-size: 14px; display: none;
       }
-
-      .teacher-btn {
-        background: linear-gradient(135deg, #3498db, #3498db);
-        color: white;
-      }
-
-      .submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      }
-
-      .submit-btn:active {
-        transform: translateY(0);
-      }
-
-      .forgot-password {
-        text-align: center;
-        margin-top: 20px;
-      }
-
-      .forgot-password a {
-        color: #3498db;
-        text-decoration: none;
-        font-size: 14px;
-      }
-
-      .forgot-password a:hover {
-        text-decoration: underline;
-      }
-
-      .success-message,
-      .error-message {
-        padding: 12px;
-        border-radius: 6px;
-        margin-bottom: 20px;
-        font-size: 14px;
-        display: none;
-      }
-
-      .success-message {
-        background: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-      }
-
-      .error-message {
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-      }
+      .success-message { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+      .error-message { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
       /* Footer */
-      .footer {
-        background: rgba(44, 62, 80, 0.95);
-        color: white;
-        padding: 30px 0;
-        text-align: center;
-      }
-
-      .footer-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      .footer-links {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-      }
-
-      .footer-links a {
-        color: white;
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
-
-      .footer-links a:hover {
-        color: #3498db;
-      }
-
-      .footer-bottom {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 20px;
-        font-size: 14px;
-        opacity: 0.8;
-      }
+      .footer { background: rgba(44, 62, 80, 0.95); color: white; padding: 30px 0; text-align: center; }
+      .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+      .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; flex-wrap: wrap; }
+      .footer-links a { color: white; text-decoration: none; transition: color 0.3s ease; }
+      .footer-links a:hover { color: #3498db; }
+      .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; font-size: 14px; opacity: 0.8; }
 
       /* Responsive */
       @media (max-width: 768px) {
-        .login-wrapper {
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .nav-container {
-          flex-direction: column;
-          gap: 15px;
-        }
-
-        .nav-links {
-          gap: 20px;
-        }
-
-        .footer-links {
-          flex-direction: column;
-          gap: 15px;
-        }
+        .login-wrapper { flex-direction: column; align-items: center; }
+        .nav-container { flex-direction: column; gap: 15px; }
+        .nav-links { gap: 20px; }
+        .footer-links { flex-direction: column; gap: 15px; }
       }
     </style>
   </head>
@@ -311,6 +141,7 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="login-wrapper">
+
         <!-- Student Login Card -->
         <div class="login-card">
           <div class="card-header student-header">
@@ -323,11 +154,11 @@
             <div id="student-error" class="error-message"></div>
             <form onsubmit="return handleStudentLogin(event)">
               <div class="form-group">
-                <label for="student-email">Email Address</label>
+                <label for="student-id">Student ID</label>
                 <input
-                  type="email"
-                  id="student-email"
-                  placeholder="Enter your email"
+                  type="number"
+                  id="student-id"
+                  placeholder="Enter your Student ID"
                   required
                 />
               </div>
@@ -364,7 +195,7 @@
               <div class="form-group">
                 <label for="teacher-id">Teacher ID</label>
                 <input
-                  type="text"
+                  type="number"
                   id="teacher-id"
                   placeholder="Enter your Teacher ID"
                   required
@@ -388,6 +219,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </main>
 
@@ -404,8 +236,7 @@
         </div>
         <div class="footer-bottom">
           <p>
-            &copy; 2025 CodeRank. All rights reserved. | Empowering coders
-            worldwide
+            &copy; 2025 CodeRank. All rights reserved. | Empowering coders worldwide
           </p>
         </div>
       </div>
