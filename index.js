@@ -5,20 +5,24 @@ const path = require('path');
 const con = require('./server'); // MySQL connection
 
 const app = express();
+const PORT = 3000;
+
 
 // EJS Setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Static files (CSS, JS, images, HTML pages)
-app.use(express.static(path.join(__dirname, '..', 'Public')));
-app.use(express.static(path.join(__dirname, '..', 'Frontend_Code')));
+// Static files
+app.use(express.static(path.join(__dirname, 'Frontend_Code')));
 
-// DB connect
+
+
+// DB Connection
 con.connect(err => {
   if (err) {
     console.error('DB connection failed:', err);
@@ -27,18 +31,26 @@ con.connect(err => {
   console.log('✅ DB Connected');
 });
 
+// Routes
+
 // Home route
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'Frontend_Code', 'Home_page.html'));
+  res.sendFile(path.join(__dirname, 'Frontend_Code', 'Home_page.html'));
 });
 
-// Optional EJS route example
-app.get('/ejs-example', (req, res) => {
-  res.render('sample', { title: 'Hello EJS', message: 'Welcome to EJS page!' });
+
+
+// Catch-all route for static HTML files in Public
+app.get('/:page', (req, res) => {
+  const file = path.join(__dirname, 'Frontend_Code', req.params.page);
+  res.sendFile(file, err => {
+    if (err) res.status(404).json({ success: false, message: 'Page not found' });
+  });
 });
 
-// Server
-const PORT = 3000;
+
+
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

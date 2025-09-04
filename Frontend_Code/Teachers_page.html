@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Dashboard - MyClass</title>
+  
+  <link rel="stylesheet" href="teacher-dashboard.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>🎓 MyClass</h2>
+        
+      </div>
+      <ul>
+        <li class="active"><a href="#"><span>🏠</span> Dashboard</a></li>
+        <li><a href="teachers_cources.html"><span>📚</span> My Courses</a></li>
+       
+       <li><a href="#"><span>📅</span> Weekly Routine</a></li> 
+        <li><a>✅Attendence</a></li>
+        <li><a href="assignment.html"><span>📝</span> Assignments</a></li>
+        <li><a href="#" id="logoutBtn" class="btn">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="top-bar">
+        <div class="welcome-section">
+          <h1>Good Morning,</h1>
+          <p>Computer Science Department | Year 2025</p>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <h3>Total Courses</h3>
+          <div class="number" id="totalCoursesCount">0</div>
+          <div class="subtitle">Active This Semester</div>
+        </div>
+
+        <div class="stat-card">
+          <div id="clock"></div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <h3>⚡ Quick Actions</h3>
+        <a href="#" id="addMarksBtn" class="quick-action-btn"><span>✏️</span> Add Marks</a>
+        <a href="Teacher_daily_shidule.html" class="quick-action-btn"><span>📅</span> Schedule Class</a>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Marks Modal -->
+  <div id="marksModal" class="modal">
+    <div class="modal-content">
+      <h3>Add Marks</h3>
+      <form id="addMarksForm">
+        <label>Course Code <input type="text" name="Course_Code" required></label>
+        <label>Roll <input type="text" name="Roll" required></label>
+        <label>Attendance Mark <input type="number" name="Attendance_Mark" required></label>
+        <label>Mid 1 <input type="number" step="0.01" name="Mid_1" value="0"></label>
+        <label>Mid 2 <input type="number" step="0.01" name="Mid_2" value="0"></label>
+        <label>Assignment Mark <input type="number" step="0.01" name="Assign_Mark" value="0"></label>
+        <label>Session <input type="text" name="Session"></label>
+        <div class="form-actions">
+          <button type="submit">Submit</button>
+          <button type="button" id="closeMarksModal">Close</button>
+        </div>
+      </form>
+      <div id="marksMsg"></div>
+    </div>
+  </div>
+
+  <script src="teacher_dashboard.js"></script>
+</body>
+</html>
