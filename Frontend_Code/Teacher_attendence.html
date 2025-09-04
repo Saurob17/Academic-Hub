@@ -1,673 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Attendance System</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Attendance System</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        overflow: hidden;
+        padding: 20px;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
+    .header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+        border-radius: 10px 10px 0 0;
+    }
 
-        .header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+    .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .header p { font-size: 1.1rem; opacity: 0.9; }
 
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+    .subjects-container {
+        display: grid;
+        gap: 25px;
+        margin-top: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
+    .subject-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        overflow: hidden;
+        border: 2px solid #f0f0f0;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-        .main-content {
-            padding: 30px;
-        }
+    .subject-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
 
-        .add-subject-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            border-left: 5px solid #4facfe;
-        }
+    .subject-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+    }
 
-        .add-subject-section h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
+    .subject-header h3 { font-size: 1.3rem; margin-bottom: 5px; }
+    .subject-header p { opacity: 0.9; font-size: 0.9rem; }
 
-        .input-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
+    .subject-controls { padding: 15px 20px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0; }
+    .control-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+    .control-row input { padding: 8px; border: 1px solid #ddd; border-radius: 5px; width: 80px; }
 
-        .input-group input {
-            flex: 1;
-            min-width: 200px;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
+    .btn { padding: 12px 25px; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+    .btn-primary { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+    .btn-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
+    .btn-warning { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+    .btn-small { padding: 6px 12px; font-size: 0.9rem; }
 
-        .input-group input:focus {
-            outline: none;
-            border-color: #4facfe;
-        }
+    .students-list { padding: 20px; max-height: 400px; overflow-y: auto; }
+    .student-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 10px; background: #fafafa; transition: background 0.3s; }
+    .student-item:hover { background: #f0f8ff; }
+    .student-info { display: flex; gap: 15px; align-items: center; }
+    .student-roll { font-weight: 600; color: #333; min-width: 80px; }
+    .attendance-info { font-size: 0.9rem; color: #666; }
+    .student-controls { display: flex; gap: 10px; align-items: center; }
+    .attendance-controls { display: flex; gap: 5px; }
+    .attendance-checkbox { transform: scale(1.2); cursor: pointer; }
 
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
+    .status-indicator { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 8px; }
+    .status-present { background: #28a745; }
+    .status-absent { background: #dc3545; }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-        }
+    .empty-state { text-align: center; padding: 40px; color: #666; }
+    .empty-state div { font-size: 4rem; margin-bottom: 15px; opacity: 0.5; }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 0.9rem;
-        }
-
-        .subjects-container {
-            display: grid;
-            gap: 25px;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        }
-
-        .subject-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            overflow: hidden;
-            border: 2px solid #f0f0f0;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .subject-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .subject-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-        }
-
-        .subject-header h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-
-        .subject-header p {
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-
-        .subject-controls {
-            padding: 15px 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .control-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .control-row input {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 80px;
-        }
-
-        .students-list {
-            padding: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .student-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            background: #fafafa;
-            transition: background 0.3s;
-        }
-
-        .student-item:hover {
-            background: #f0f8ff;
-        }
-
-        .student-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .student-roll {
-            font-weight: 600;
-            color: #333;
-            min-width: 80px;
-        }
-
-        .attendance-info {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .student-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .attendance-checkbox {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            transform: scale(1.2);
-        }
-
-        .attendance-controls {
-            display: flex;
-            gap: 5px;
-        }
-
-        .add-student-section {
-            padding: 15px 20px;
-            background: #f8f9fa;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .empty-state img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-
-        .reset-timer {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            color: #856404;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-                border-radius: 10px;
-            }
-
-            .header {
-                padding: 20px;
-            }
-
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .main-content {
-                padding: 20px;
-            }
-
-            .subjects-container {
-                grid-template-columns: 1fr;
-            }
-
-            .input-group {
-                flex-direction: column;
-            }
-
-            .input-group input {
-                min-width: auto;
-            }
-
-            .control-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .student-item {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-
-            .student-controls {
-                justify-content: space-between;
-            }
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-left: 8px;
-        }
-
-        .status-present {
-            background: #28a745;
-        }
-
-        .status-absent {
-            background: #dc3545;
-        }
-    </style>
+    @media (max-width: 768px) {
+        .subjects-container { grid-template-columns: 1fr; }
+        .control-row { flex-direction: column; align-items: stretch; }
+        .student-item { flex-direction: column; align-items: stretch; gap: 10px; }
+        .student-controls { justify-content: space-between; }
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📚 Teacher Attendance System</h1>
-            <p>Efficiently track student attendance with automated features</p>
-        </div>
 
-        <div class="main-content">
-            <!-- Add Subject Section -->
-            <div class="add-subject-section">
-                <h2>➕ Add New Subject</h2>
-                <div class="input-group">
-                    <input type="text" id="subjectName" placeholder="Subject Name (e.g., Mathematics)">
-                    <input type="number" id="courseCode" placeholder="Course Code (e.g., 101)">
-                    <input type="text" id="session" placeholder="Session (e.g., 2024-25)">
-                    <button class="btn btn-primary" onclick="addSubject()">Add Subject</button>
-                </div>
-            </div>
-
-            <!-- Reset Timer Info -->
-            <div class="reset-timer" id="resetTimer">
-                ⏰ Next attendance reset: <span id="nextReset">Calculating...</span>
-            </div>
-
-            <!-- Subjects Container -->
-            <div class="subjects-container" id="subjectsContainer">
-                <div class="empty-state">
-                    <div style="font-size: 4rem; margin-bottom: 15px;">📋</div>
-                    <h3>No Subjects Added Yet</h3>
-                    <p>Add your first subject using the form above to get started</p>
-                </div>
-            </div>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>📚 Teacher Attendance System</h1>
+        <p>Efficiently track student attendance with automated features</p>
     </div>
 
-    <script>
-        // Global variables
-        let subjects = JSON.parse(localStorage.getItem('attendanceSubjects')) || [];
-        let lastResetTime = localStorage.getItem('lastResetTime') || Date.now();
-        
-        // Initialize the system
-        document.addEventListener('DOMContentLoaded', function() {
-            loadSubjects();
-            checkForReset();
-            updateResetTimer();
-            setInterval(updateResetTimer, 1000);
-            setInterval(checkForReset, 60000); // Check every minute
-        });
+    <div class="subjects-container" id="courses-container">
+       
+    </div>
+</div>
 
-        // Add new subject
-        function addSubject() {
-            const name = document.getElementById('subjectName').value.trim();
-            const courseCode = document.getElementById('courseCode').value.trim();
-            const session = document.getElementById('session').value.trim();
+<script src="Attendence_front.js">
 
-            if (!name || !courseCode || !session) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            // Check if course code already exists
-            if (subjects.find(s => s.courseCode === courseCode)) {
-                alert('Course code already exists');
-                return;
-            }
-
-            const subject = {
-                id: Date.now(),
-                name: name,
-                courseCode: courseCode,
-                session: session,
-                totalClasses: 0,
-                students: [],
-                lastAttendanceDate: null
-            };
-
-            subjects.push(subject);
-            saveData();
-            loadSubjects();
-            
-            // Clear form
-            document.getElementById('subjectName').value = '';
-            document.getElementById('courseCode').value = '';
-            document.getElementById('session').value = '';
-        }
-
-        // Add student to subject
-        function addStudent(subjectId) {
-            const rollInput = document.getElementById(`rollInput-${subjectId}`);
-            const rollNumber = rollInput.value.trim();
-
-            if (!rollNumber) {
-                alert('Please enter a roll number');
-                return;
-            }
-
-            const subject = subjects.find(s => s.id === subjectId);
-            if (!subject) return;
-
-            // Check if roll number already exists in this subject
-            if (subject.students.find(s => s.roll === rollNumber)) {
-                alert('Student with this roll number already exists in this subject');
-                return;
-            }
-
-            const student = {
-                roll: rollNumber,
-                attendedClasses: 0,
-                todayPresent: false,
-                lastAttendanceDate: null
-            };
-
-            subject.students.push(student);
-            saveData();
-            loadSubjects();
-            rollInput.value = '';
-        }
-
-        // Update total classes for a subject
-        function updateTotalClasses(subjectId) {
-            const input = document.getElementById(`totalClasses-${subjectId}`);
-            const newTotal = parseInt(input.value);
-
-            if (isNaN(newTotal) || newTotal < 0) {
-                alert('Please enter a valid number');
-                return;
-            }
-
-            const subject = subjects.find(s => s.id === subjectId);
-            if (subject) {
-                subject.totalClasses = newTotal;
-                saveData();
-                loadSubjects();
-            }
-        }
-
-        // Toggle attendance for a student
-        function toggleAttendance(subjectId, studentRoll) {
-            const subject = subjects.find(s => s.id === subjectId);
-            if (!subject) return;
-
-            const student = subject.students.find(s => s.roll === studentRoll);
-            if (!student) return;
-
-            const today = new Date().toDateString();
-            
-            // Toggle attendance for today
-            if (student.todayPresent) {
-                student.todayPresent = false;
-                student.attendedClasses = Math.max(0, student.attendedClasses - 1);
-            } else {
-                student.todayPresent = true;
-                student.attendedClasses++;
-                student.lastAttendanceDate = today;
-            }
-
-            saveData();
-            loadSubjects();
-        }
-
-        // Manually adjust attendance
-        function adjustAttendance(subjectId, studentRoll, change) {
-            const subject = subjects.find(s => s.id === subjectId);
-            if (!subject) return;
-
-            const student = subject.students.find(s => s.roll === studentRoll);
-            if (!student) return;
-
-            student.attendedClasses = Math.max(0, student.attendedClasses + change);
-            saveData();
-            loadSubjects();
-        }
-
-        // Delete subject
-        function deleteSubject(subjectId) {
-            if (confirm('Are you sure you want to delete this subject and all its data?')) {
-                subjects = subjects.filter(s => s.id !== subjectId);
-                saveData();
-                loadSubjects();
-            }
-        }
-
-        // Check for 12-hour reset
-        function checkForReset() {
-            const now = Date.now();
-            const timeSinceReset = now - parseInt(lastResetTime);
-            const twelveHours = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
-
-            if (timeSinceReset >= twelveHours) {
-                resetDailyAttendance();
-                lastResetTime = now;
-                localStorage.setItem('lastResetTime', lastResetTime);
-            }
-        }
-
-        // Reset daily attendance flags
-        function resetDailyAttendance() {
-            subjects.forEach(subject => {
-                subject.students.forEach(student => {
-                    student.todayPresent = false;
-                });
-            });
-            saveData();
-            loadSubjects();
-        }
-
-        // Update reset timer display
-        function updateResetTimer() {
-            const now = Date.now();
-            const timeSinceReset = now - parseInt(lastResetTime);
-            const twelveHours = 12 * 60 * 60 * 1000;
-            const timeUntilReset = twelveHours - timeSinceReset;
-
-            if (timeUntilReset <= 0) {
-                document.getElementById('nextReset').textContent = 'Resetting now...';
-                checkForReset();
-            } else {
-                const hours = Math.floor(timeUntilReset / (60 * 60 * 1000));
-                const minutes = Math.floor((timeUntilReset % (60 * 60 * 1000)) / (60 * 1000));
-                const seconds = Math.floor((timeUntilReset % (60 * 1000)) / 1000);
-                
-                document.getElementById('nextReset').textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-        }
-
-        // Load and display all subjects
-        function loadSubjects() {
-            const container = document.getElementById('subjectsContainer');
-            
-            if (subjects.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div style="font-size: 4rem; margin-bottom: 15px;">📋</div>
-                        <h3>No Subjects Added Yet</h3>
-                        <p>Add your first subject using the form above to get started</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = subjects.map(subject => `
-                <div class="subject-card">
-                    <div class="subject-header">
-                        <h3>${subject.name}</h3>
-                        <p>Course Code: ${subject.courseCode} | Session: ${subject.session}</p>
-                    </div>
-                    
-                    <div class="subject-controls">
-                        <div class="control-row">
-                            <label>Total Classes:</label>
-                            <input type="number" id="totalClasses-${subject.id}" value="${subject.totalClasses}" min="0">
-                            <button class="btn btn-small btn-primary" onclick="updateTotalClasses(${subject.id})">Update</button>
-                            <button class="btn btn-small btn-warning" onclick="deleteSubject(${subject.id})">Delete Subject</button>
-                        </div>
-                    </div>
-
-                    <div class="students-list">
-                        ${subject.students.length === 0 ? 
-                            '<div style="text-align: center; color: #666; padding: 20px;">No students added yet</div>' :
-                            subject.students.map(student => {
-                                const attendancePercentage = subject.totalClasses > 0 ? 
-                                    ((student.attendedClasses / subject.totalClasses) * 100).toFixed(1) : 0;
-                                
-                                return `
-                                    <div class="student-item">
-                                        <div class="student-info">
-                                            <div class="student-roll">Roll: ${student.roll}</div>
-                                            <div class="attendance-info">
-                                                ${student.attendedClasses}/${subject.totalClasses} classes (${attendancePercentage}%)
-                                                <span class="status-indicator ${student.todayPresent ? 'status-present' : 'status-absent'}"></span>
-                                            </div>
-                                        </div>
-                                        <div class="student-controls">
-                                            <input type="checkbox" class="attendance-checkbox" 
-                                                   ${student.todayPresent ? 'checked' : ''} 
-                                                   onchange="toggleAttendance(${subject.id}, '${student.roll}')">
-                                            <div class="attendance-controls">
-                                                <button class="btn btn-small btn-success" onclick="adjustAttendance(${subject.id}, '${student.roll}', 1)">+</button>
-                                                <button class="btn btn-small btn-warning" onclick="adjustAttendance(${subject.id}, '${student.roll}', -1)">-</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')
-                        }
-                    </div>
-
-                    <div class="add-student-section">
-                        <div class="input-group">
-                            <input type="text" id="rollInput-${subject.id}" placeholder="Enter student roll number">
-                            <button class="btn btn-success" onclick="addStudent(${subject.id})">Add Student</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Save data to localStorage
-        function saveData() {
-            localStorage.setItem('attendanceSubjects', JSON.stringify(subjects));
-        }
-
-        // Export data as JSON
-        function exportData() {
-            const dataStr = JSON.stringify({ subjects, lastResetTime }, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = `attendance-data-${new Date().toISOString().split('T')[0]}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-        }
-
-        // Import data from JSON
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    if (data.subjects && Array.isArray(data.subjects)) {
-                        subjects = data.subjects;
-                        if (data.lastResetTime) {
-                            lastResetTime = data.lastResetTime;
-                            localStorage.setItem('lastResetTime', lastResetTime);
-                        }
-                        saveData();
-                        loadSubjects();
-                        alert('Data imported successfully!');
-                    } else {
-                        alert('Invalid file format');
-                    }
-                } catch (error) {
-                    alert('Error reading file: ' + error.message);
-                }
-            };
-            reader.readAsText(file);
-        }
-    </script>
+</script>
 </body>
 </html>

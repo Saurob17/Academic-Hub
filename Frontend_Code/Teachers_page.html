@@ -4,31 +4,147 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Teacher Dashboard - MyClass</title>
-  
   <link rel="stylesheet" href="teacher-dashboard.css" />
+
+  <style>
+    /* Navbar Styles */
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding-right: 20px;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2c3e50;
+      padding-left: 20px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      justify-content: flex-end;
+      flex: 1;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: #3498db;
+    }
+
+    /* Today’s Section (Copied from Student Dashboard) */
+    .today-section { 
+      background: rgba(255,255,255,0.1); 
+      backdrop-filter:blur(20px); 
+      padding:35px; 
+      border-radius:20px; 
+      border:1px solid rgba(255,255,255,0.2); 
+      box-shadow:0 10px 30px rgba(0,0,0,0.1);
+      margin: 30px 0;
+    }
+    .today-section h2 { 
+      margin-bottom:25px; 
+      color:#333; 
+      font-size:24px; 
+      font-weight:700; 
+      display:flex; 
+      align-items:center;
+      background: linear-gradient(45deg, #ff6b6b, #ffd89b);
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      background-clip: text;
+    }
+    .today-section h2 span { margin-right:15px; font-size:28px; }
+    .today-classes {
+      display: grid;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .today-class-item {
+      background: linear-gradient(135deg, rgba(255,107,107,0.2), rgba(255,216,155,0.2));
+      border-radius: 15px;
+      padding: 25px;
+      border: 2px solid rgba(255,107,107,0.3);
+      transition: all 0.3s ease;
+    }
+    .class-time-today {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #000;
+    }
+    .class-subject-today {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #111;
+    }
+    .class-room-today {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+    .class-status {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(255,107,107,0.3);
+      color: #ff6b6b;
+      border: 1px solid rgba(255,107,107,0.5);
+    }
+  </style>
 </head>
 <body>
+
+  <!-- ✅ Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">🎯 MyClass</div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#profile">Profile</a>
+        <a href="#courses">Courses</a>
+        <a href="#help">Help</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     <aside class="sidebar">
       <div class="sidebar-header">
         <h2>🎓 MyClass</h2>
-        
       </div>
       <ul>
         <li class="active"><a href="#"><span>🏠</span> Dashboard</a></li>
         <li><a href="teachers_cources.html"><span>📚</span> My Courses</a></li>
-       
-       <li><a href="#"><span>📅</span> Weekly Routine</a></li> 
-        <li><a>✅Attendence</a></li>
+        <li><a href="#"><span>📅</span> Weekly Routine</a></li> 
+        <li><a href="Teacher_attendence.html"><span>✅</span> Attendence</a></li>
         <li><a href="assignment.html"><span>📝</span> Assignments</a></li>
-        <li><a href="#" id="logoutBtn" class="btn">Logout</a></li>
+        <li><a href="#" id="logoutBtn" class="btn">🚪 Logout</a></li>
       </ul>
     </aside>
 
     <main class="main-content">
       <div class="top-bar">
         <div class="welcome-section">
-          <h1>Good Morning,</h1>
+          <h1>Good Morning, Teacher 👩‍🏫</h1>
           <p>Computer Science Department | Year 2025</p>
         </div>
       </div>
@@ -40,11 +156,18 @@
           <div class="number" id="totalCoursesCount">0</div>
           <div class="subtitle">Active This Semester</div>
         </div>
-
         <div class="stat-card">
           <div id="clock"></div>
         </div>
       </div>
+
+      <!-- ✅ Today’s Schedule Section -->
+      <section class="today-section">
+        <h2><span>🌟</span> Today's Schedule - <span id="currentDate"></span></h2>
+        <div class="today-classes" id="todayClasses">
+          <!-- Classes will load here -->
+        </div>
+      </section>
 
       <div class="quick-actions">
         <h3>⚡ Quick Actions</h3>
@@ -76,5 +199,32 @@
   </div>
 
   <script src="teacher_dashboard.js"></script>
+  <script>
+    // Current Date
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', options);
+
+      // Dummy data for today's schedule
+      const todayClasses = [
+        { time: "9:00 AM - 10:30 AM", course: "CSE-401 (Data Structures)", room: "204" },
+        { time: "11:00 AM - 12:30 PM", course: "CSE-402 (Database Systems)", room: "301" }
+      ];
+
+      const container = document.getElementById('todayClasses');
+      todayClasses.forEach(cls => {
+        const div = document.createElement('div');
+        div.className = "today-class-item";
+        div.innerHTML = `
+          <div class="class-time-today">${cls.time}</div>
+          <div class="class-subject-today">${cls.course}</div>
+          <div class="class-room-today">📍 Room ${cls.room}</div>
+          <div class="class-status">Upcoming</div>
+        `;
+        container.appendChild(div);
+      });
+    });
+  </script>
 </body>
 </html>

@@ -7,6 +7,7 @@ const con = require('./server'); // MySQL connection
 
 //Roughting  File 
 const login_verification = require('./login_verification'); // <-- Import here
+const Atendence= require('./Attendence_backend');
 
 
 const app = express();
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
 
 // Register routes AFTER app initialized
 login_verification(app, con); // <-- Angular-like routing
-
+Atendence(app,con);
 
 
 
