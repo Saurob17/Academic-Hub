@@ -7,7 +7,7 @@ const con = mysql.createConnection({
   host: '127.0.0.1',
   user: 'root',
   password: '1',
-  database: 'Department'
+  database: 'university'
 });
 
 module.exports = con;
