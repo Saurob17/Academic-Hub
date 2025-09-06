@@ -405,7 +405,7 @@ class TaskManager {
 
     createTaskElement(task) {
         const taskItem = document.createElement('div');
-        taskItem.className = task-item fade-in ${task.completed ? 'completed' : ''};
+        taskItem.className = `task-item fade-in ${task.completed ? 'completed' : ''}`;
         taskItem.innerHTML = `
             <div class="task-checkbox ${task.completed ? 'checked' : ''}" onclick="taskManager.toggleTask(${task.id})"></div>
             <div class="task-content">
