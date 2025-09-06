@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Weekly Routine</title>
+  <title>Teacher Weekly Routine</title>
   <style>
     /* ======= General styles ======= */
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -99,10 +99,8 @@
       font-size:18px;
     }
 
-    /* ======= Routine Section (Updated Professional Look) ======= */
-    .routine-section {
-      margin-top: 30px;
-    }
+    /* ======= Routine Section ======= */
+    .routine-section { margin-top: 30px; }
     .routine-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -118,10 +116,7 @@
       box-shadow: 0 6px 20px rgba(0,0,0,0.15);
       transition: transform 0.2s ease, box-shadow 0.3s ease;
     }
-    .day-schedule:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    }
+    .day-schedule:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.25); }
     .day-title {
       font-weight: 700;
       margin-bottom: 14px;
@@ -141,22 +136,10 @@
       color: #140b0b;
       transition: background 0.2s ease;
     }
-    .class-item:hover {
-      background: rgba(255,255,255,0.22);
-    }
-    .class-time {
-      font-size: 14px;
-      font-weight: 600;
-      color: #0c0c0a;
-      margin-bottom: 4px;
-    }
-    .class-subject {
-      font-weight: 500;
-    }
-    .class-room {
-      font-size: 13px;
-      color: #050505;
-    }
+    .class-item:hover { background: rgba(255,255,255,0.22); }
+    .class-time { font-size: 14px; font-weight: 600; color: #0c0c0a; margin-bottom: 4px; }
+    .class-subject { font-weight: 500; }
+    .class-room { font-size: 13px; color: #050505; }
     .class-item.no-class {
       background: rgba(255,255,255,0.18);
       color: #d32323;
@@ -207,8 +190,8 @@
     <!-- Main Content -->
     <main class="main-content">
       <header>
-        <h1>📅 Weekly Class Routine</h1>
-        <p id="sessionInfo">Loading session...</p>
+        <h1>📅 Weekly Routine</h1>
+        <p id="sessionInfo">Loading teacher info...</p>
       </header>
 
       <section class="routine-section">
@@ -216,52 +199,55 @@
       </section>
     </main>
   </div>
-<script>
-const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
-async function loadWeeklyRoutine() {
-  const routineGrid = document.getElementById('routineGrid');
-  routineGrid.innerHTML = '';
+  <script>
+    const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
-  const session = sessionStorage.getItem("session");
-  const semester = sessionStorage.getItem("semester");
+    async function loadTeacherRoutine() {
+      const routineGrid = document.getElementById('routineGrid');
+      routineGrid.innerHTML = '';
 
-  const sessionInfo = document.getElementById('sessionInfo');
-  sessionInfo.textContent = `${semester} | Session: ${session}`;
+      const teacherId = sessionStorage.getItem("teacherId");
+      const sessionInfo = document.getElementById('sessionInfo');
+      sessionInfo.textContent = `Teacher ID: ${teacherId}`;
 
-  for (let day of days) {
-    const dayDiv = document.createElement('div');
-    dayDiv.className = 'day-schedule';
-    let innerHTML = `<div class="day-title">${day}</div>`;
-
-    try {
-      const res = await fetch(`/api/routine/${day}?session=${session}`);
-      const schedule = await res.json();
-
-      if (schedule.length === 0) {
-        innerHTML += `<div class="class-item no-class">No classes scheduled</div>`;
-      } else {
-        schedule.forEach(item => {
-          innerHTML += `
-            <div class="class-item">
-              <div class="class-time">⏰ ${item.start_time} - ${item.end_time}</div>
-              <div class="class-subject">📖 ${item.course_code} - ${item.course_name}</div>
-              <div class="class-room">📍 Room ${item.room}</div>
-            </div>`;
-        });
+      if (!teacherId) {
+        routineGrid.innerHTML = '<div class="class-item no-class">Teacher ID not found in session</div>';
+        return;
       }
-    } catch(err) {
-      innerHTML += `<div class="class-item no-class">Error loading data</div>`;
-      console.error(err);
+
+      for (let day of days) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'day-schedule';
+        let innerHTML = `<div class="day-title">${day}</div>`;
+
+        try {
+          const res = await fetch(`/api/teacher/routine/${day}?teacherId=${teacherId}`);
+          const schedule = await res.json();
+
+          if (schedule.length === 0) {
+            innerHTML += `<div class="class-item no-class">No classes scheduled</div>`;
+          } else {
+            schedule.forEach(item => {
+              innerHTML += `
+                <div class="class-item">
+                  <div class="class-time">⏰ ${item.start_time} - ${item.end_time}</div>
+                  <div class="class-subject">📖 ${item.course_code} - ${item.course_name}</div>
+                  <div class="class-room">📍 Room ${item.room}</div>
+                </div>`;
+            });
+          }
+        } catch(err) {
+          innerHTML += `<div class="class-item no-class">Error loading data</div>`;
+          console.error(err);
+        }
+
+        dayDiv.innerHTML = innerHTML;
+        routineGrid.appendChild(dayDiv);
+      }
     }
 
-    dayDiv.innerHTML = innerHTML;
-    routineGrid.appendChild(dayDiv);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", loadWeeklyRoutine);
-</script>
-
+    document.addEventListener("DOMContentLoaded", loadTeacherRoutine);
+  </script>
 </body>
 </html>

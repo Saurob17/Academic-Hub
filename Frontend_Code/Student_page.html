@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Student Dashboard</title>
+  <title>Student Dashboard - MyClass</title>
   <style>
     /* ======= General styles ======= */
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'Inter',sans-serif;background: linear-gradient(to right, #667eea, #764ba2);
+    body { font-family:'Inter',sans-serif; background: linear-gradient(to right, #667eea, #764ba2); }
     .container { display:flex; min-height:100vh; position:relative; }
-  }
 
     /* Navigation */
     .navbar {
@@ -21,40 +20,13 @@
       top: 0;
       z-index: 100;
     }
+    .nav-container { display: flex; align-items: center; width: 100%; padding-right: 20px; }
+    .logo { font-size: 24px; font-weight: bold; color: #2c3e50; padding-left: 20px; }
+    .nav-links { display: flex; gap: 30px; justify-content: flex-end; flex: 1; }
+    .nav-links a { text-decoration: none; color: #2c3e50; font-weight: 500; transition: color 0.3s ease; }
+    .nav-links a:hover { color: #3498db; }
 
-    .nav-container {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding-right: 20px;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #2c3e50;
-      padding-left: 20px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      justify-content: flex-end;
-      flex: 1;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #2c3e50;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: #3498db;
-    }
-
-    /* ======= Sidebar ======= */
+    /* Sidebar */
     .sidebar {
       background: rgba(47,62,70,0.9);
       backdrop-filter: blur(20px);
@@ -66,7 +38,6 @@
       background: linear-gradient(5deg, #0a43df, #d8d7e0);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
     .sidebar ul { list-style:none; }
     .sidebar ul li { margin:20px 0; border-radius:12px; transition:0.3s; }
     .sidebar ul li:hover { background:rgba(255,255,255,0.1); transform:translateX(5px); }
@@ -74,29 +45,22 @@
     .sidebar ul li a span { margin-right:15px; font-size:20px; }
     .sidebar ul li a:hover { color:#fff; }
 
-    /* =======  background: linear-gradient(135deg, #3498db, #2980b9);Main content ======= */
+    /* Main content */
     .main-content { flex:1; padding:40px; background:rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
-    header { margin-bottom:40px; text-align:center; }
-    header h1 { font-size:36px; margin-bottom:10px; color:#fff; font-weight:700; text-shadow:2px 2px 4px rgba(0,0,0,0.3); }
-    header p { color:rgba(255,255,255,0.8); margin-bottom:30px; font-size:18px; font-weight:400; }
+    .top-bar { margin-bottom:30px; }
+    .welcome-section h1 { font-size:36px; color:#fff; margin-bottom:5px; }
+    .welcome-section p { color:rgba(255,255,255,0.8); }
 
-    /* ======= Stats cards ======= */
-    .stats-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; margin-bottom:40px; }
-    .stat-card {
-      background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); padding:30px; border-radius:20px;
-      border:1px solid rgba(255,255,255,0.2); transition:0.3s; position:relative; overflow:hidden;
-    }
-    .stat-card::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:3px;
-      background:linear-gradient(90deg,#ff6b6b,#4ecdc4,#45b7d1,#96ceb4); background-size:400% 400%; animation: gradientShift 3s ease infinite;
-    }
-    @keyframes gradientShift {0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
-    .stat-card:hover { transform:translateY(-10px); box-shadow:0 20px 40px rgba(0,0,0,0.2);}
-    .stat-card h3 { color:rgba(255,255,255,0.9); margin-bottom:15px; font-size:16px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
-    .stat-card .number { font-size:36px; font-weight:800; color:#fff; margin-bottom:10px; text-shadow:2px 2px 4px rgba(0,0,0,0.3);}
-    .stat-card .subtitle { color:rgba(255,255,255,0.7); font-size:14px; }
+    .dashboard-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; margin-bottom:40px; }
+    .stat-card { background: rgba(255,255,255,0.15); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.2); text-align:center; }
+    .stat-card h3 { color:#fff; margin-bottom:15px; }
+    .stat-card .number { font-size:36px; color:#fff; font-weight:800; margin-bottom:10px; }
 
-    /* ======= Today's Schedule Section ======= */
+    .quick-actions { display:flex; flex-direction:column; gap:10px; }
+    .quick-action-btn { display:inline-block; background: rgba(255,255,255,0.2); color:#fff; padding:10px 15px; border-radius:12px; text-decoration:none; transition:0.3s; }
+    .quick-action-btn:hover { background: rgba(255,255,255,0.3); }
+
+    /* Today’s Schedule Section */
     .today-section { 
       background: rgba(255,255,255,0.1); 
       backdrop-filter:blur(20px); 
@@ -120,183 +84,32 @@
     }
     .today-section h2 span { margin-right:15px; font-size:28px; }
 
-    /* ======= Today's Classes ======= */
-    .today-classes {
-      display: grid;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
+    .today-classes { display: grid; gap: 15px; }
 
     .today-class-item {
       background: linear-gradient(135deg, rgba(255,107,107,0.2), rgba(255,216,155,0.2));
       border-radius: 15px;
-      padding: 25px;
+      padding: 20px;
       border: 2px solid rgba(255,107,107,0.3);
-      transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
+      transition: all 0.3s ease;
     }
 
-    .today-class-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #ff6b6b, #ffd89b);
-      background-size: 200% 200%;
-      animation: gradientShift 2s ease infinite;
-    }
+    .current-class { background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(52,152,219,0.2)) !important; border-color: rgba(46,204,113,0.4) !important; }
+    .next-class { background: linear-gradient(135deg, rgba(155,89,182,0.2), rgba(142,68,173,0.2)) !important; border-color: rgba(155,89,182,0.4) !important; }
 
-    .today-class-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(255,107,107,0.3);
-      background: linear-gradient(135deg, rgba(255,107,107,0.25), rgba(255,216,155,0.25));
-    }
+    .class-time-today, .class-subject-today, .class-room-today { color:#fff; margin-bottom:5px; }
+    .class-status { display:inline-block; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; text-transform:uppercase; }
+    .status-current { background: rgba(46,204,113,0.3); color:#2ecc71; }
+    .status-next { background: rgba(155,89,182,0.3); color:#9b59b6; }
+    .status-upcoming { background: rgba(255,107,107,0.3); color:#ff6b6b; }
 
-    .current-class {
-      background: linear-gradient(135deg, rgba(46,204,113,0.2), rgba(52,152,219,0.2)) !important;
-      border-color: rgba(46,204,113,0.4) !important;
-      box-shadow: 0 0 25px rgba(46,204,113,0.4);
-      animation: pulse 2s infinite;
-    }
-
-    .current-class::before {
-      background: linear-gradient(90deg, #2ecc71, #3498db) !important;
-    }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 25px rgba(46,204,113,0.4); }
-      50% { box-shadow: 0 0 35px rgba(46,204,113,0.6); }
-    }
-
-    .next-class {
-      background: linear-gradient(135deg, rgba(155,89,182,0.2), rgba(142,68,173,0.2)) !important;
-      border-color: rgba(155,89,182,0.4) !important;
-    }
-
-    .next-class::before {
-      background: linear-gradient(90deg, #9b59b6, #8e44ad) !important;
-    }
-
-    .class-time-today {
-      font-size: 20px;
-      color: #fff;
-      font-weight: 700;
-      margin-bottom: 8px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    }
-
-    .class-subject-today {
-      font-size: 18px;
-      color: #fff;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-
-    .class-room-today {
-      font-size: 14px;
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 10px;
-    }
-
-    .class-status {
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .status-current {
-      background: rgba(46,204,113,0.3);
-      color: #2ecc71;
-      border: 1px solid rgba(46,204,113,0.5);
-    }
-
-    .status-next {
-      background: rgba(155,89,182,0.3);
-      color: #9b59b6;
-      border: 1px solid rgba(155,89,182,0.5);
-    }
-
-    .status-upcoming {
-      background: rgba(255,107,107,0.3);
-      color: #ff6b6b;
-      border: 1px solid rgba(255,107,107,0.5);
-    }
-
-    .no-classes-today {
-      text-align: center;
-      padding: 40px;
-      color: rgba(255,255,255,0.8);
-      font-size: 18px;
-    }
-
-    .no-classes-today .icon {
-      font-size: 48px;
-      margin-bottom: 15px;
-      display: block;
-    }
-
-    /* ======= Weekly Routine Section ======= */
-    .routine-section { 
-      background: rgba(255,255,255,0.1); 
-      backdrop-filter:blur(20px); 
-      padding:35px; 
-      border-radius:20px; 
-      border:1px solid rgba(255,255,255,0.2); 
-      box-shadow:0 10px 30px rgba(0,0,0,0.1); 
-    }
-    .routine-section h2 { margin-bottom:25px; color:#fff; font-size:24px; font-weight:700; display:flex; align-items:center; }
-    .routine-section h2 span { margin-right:15px; font-size:28px; }
-    .routine-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; }
-
-    .day-schedule { background: rgba(255,255,255,0.1); border-radius:15px; padding:25px; border:1px solid rgba(255,255,255,0.15); transition:0.3s;}
-    .day-schedule:hover { transform:translateY(-5px); background: rgba(255,255,255,0.15);}
-    .day-title { font-size:18px; font-weight:700; color:white; margin-bottom:20px; text-align:center; text-transform:uppercase; letter-spacing:1px;}
-    .class-item { background: rgba(255,255,255,0.1); border-radius:10px; padding:15px; margin-bottom:15px; border-left:4px solid #4ecdc4; transition:0.3s; }
-    .class-item:hover { background: rgba(255,255,255,0.15); transform:translateX(5px);}
-    .class-item:last-child { margin-bottom:0; }
-    .class-time { font-size:18px; color:#fff; font-weight:600; margin-bottom:5px;}
-    .class-subject { font-size:16px; color:#fff; font-weight:600; margin-bottom:3px;}
-    .class-room { font-size:12px; color:rgba(255,255,255,0.7);}
-    .today-indicator { 
-      border-left-color:#3498db !important; 
-      box-shadow:0 0 20px rgba(52,152,219,0.3);
-      background: linear-gradient(135deg, #3498db, #2980b9) !important;
-    }
-    .today-indicator .day-title { color:#fff !important;}
-    .today-indicator .class-item { background: rgba(255,255,255,0.2); }
-    .today-indicator .class-time,
-    .today-indicator .class-subject { color: #fff; }
-    .today-indicator .class-room { color: rgba(255,255,255,0.8); }
-
-    /* ======= Responsive ======= */
-    @media(max-width:768px) { 
-      .container{flex-direction:column;} 
-      .sidebar{width:100%;padding:20px;} 
-      .main-content{padding:20px;} 
-      header h1{font-size:28px;} 
-      .stats-cards{grid-template-columns:1fr;} 
-      .routine-grid{grid-template-columns:1fr;} 
-      .nav-container{flex-direction:column;gap:15px;}
-      .nav-links{gap:20px;}
-    }
-    @media(max-width:480px) { 
-      .sidebar h2{font-size:22px;} 
-      .sidebar ul li a{font-size:14px; padding:12px 15px;} 
-      .sidebar ul li a span{font-size:18px;} 
-      header h1{font-size:24px;} 
-      .stat-card .number{font-size:28px;} 
-    }
+    /* Responsive */
+    @media(max-width:768px) { .container{flex-direction:column;} .sidebar{width:100%;padding:20px;} .main-content{padding:20px;} .dashboard-grid{grid-template-columns:1fr;} }
   </style>
 </head>
 <body>
-  <!-- Navigation -->
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="logo">🎯 MyClass</div>
@@ -311,161 +124,124 @@
 
   <div class="container">
     <aside class="sidebar">
-      <h2>🎓 MyClass</h2>
+      <div class="sidebar-header"><h2>🎓 MyClass</h2></div>
       <ul>
-        <li><a href="#courses"><span>📚</span> My Courses</a></li>
-        <li><a href="#schedule"><span>📅</span> Daily Schedule</a></li>
-        <li><a href="#assignments"><span>📝</span> Assignments</a></li>
-        <li><a href="#results"><span>📈</span> Results</a></li>
-        <li><a href="#profile"><span>👤</span> Profile</a></li>
-        <li><a href="#logout" id="logoutBtn"><span>🚪</span> Logout</a></li>
+        <li class="active"><a href="#"><span>🏠</span> Dashboard</a></li>
+        <li><a href="student_courses.html"><span>📚</span> My Courses</a></li>
+        <li><a href="Student_Routine.html"><span>📅</span> Weekly Routine</a></li>
+        <li><a href="student_attendance.html"><span>✅</span> Attendance</a></li>
+        <li><a href="assignment.html"><span>📝</span> Assignments</a></li>
+        <li><a href="#" id="logoutBtn" class="btn">🚪 Logout</a></li>
       </ul>
     </aside>
 
     <main class="main-content">
-      <header>
-        <h1>Welcome Back, John Doe</h1>
-        <p>Spring 2025 | BSc in Computer Science & Engineering | Batch 22-23</p>
-      </header>
+      <div class="top-bar">
+        <div class="welcome-section">
+          <h1>Good Morning, Student 👩‍🎓</h1>
+          <p>Computer Science Department | Year 2025</p>
+        </div>
+      </div>
 
-      <section class="stats-cards">
+      <div class="dashboard-grid">
         <div class="stat-card">
+          <div class="stat-icon">📚</div>
           <h3>Total Courses</h3>
-          <div class="number">6</div>
-          <div class="subtitle">This Semester</div>
+          <div class="number" id="totalCoursesCount">0</div>
+          <div class="subtitle">Active This Semester</div>
         </div>
         <div class="stat-card">
-          <h3>Progress</h3>
-          <div class="number">89%</div>
-          <div class="subtitle">Overall Performance</div>
+          <div class="quick-actions">
+            <h3>⚡ Quick Actions</h3>
+            <a href="#" class="quick-action-btn">📅 View Schedule</a>
+            <a href="#" class="quick-action-btn">📝 Submit Assignment</a>
+          </div>
         </div>
-        <div class="stat-card">
-          <h3>Assignments</h3>
-          <div class="number">12/15</div>
-          <div class="subtitle">Completed</div>
-        </div>
-        <div class="stat-card">
-          <h3>Next Class</h3>
-          <div class="number" id="nextClassTime">10:30 AM</div>
-          <div class="subtitle" id="nextClassInfo">Data Structures (Room 204)</div>
-        </div>
-      </section>
+      </div>
 
-      <!-- Today's Schedule Section -->
+      <!-- Today’s Schedule -->
       <section class="today-section">
         <h2><span>🌟</span> Today's Schedule - <span id="currentDate"></span></h2>
-        <div class="today-classes" id="todayClasses">
-          <!-- Today's classes will be populated here -->
-        </div>
+        <div class="today-classes" id="todayClasses"></div>
       </section>
-
     </main>
   </div>
 
   <script>
-    // Sample data - replace with actual API calls
-    const studentData = {
-      name: "John Doe",
-      batch: "22-23",
-      semester: "Spring 2025",
-      courses: [
-        { code: "CSE-401", name: "Data Structures", teacher: "Dr. Smith", room: "204" },
-        { code: "CSE-402", name: "Database Systems", teacher: "Prof. Johnson", room: "301" },
-        { code: "CSE-403", name: "Computer Networks", teacher: "Dr. Brown", room: "205" },
-        { code: "CSE-404", name: "Operating Systems", teacher: "Prof. Davis", room: "302" },
-        { code: "CSE-405", name: "Software Engineering", teacher: "Dr. Wilson", room: "206" },
-        { code: "CSE-406", name: "Web Technologies", teacher: "Prof. Garcia", room: "303" }
-      ]
-    };
+    document.addEventListener("DOMContentLoaded", async () => {
+      const studentId = sessionStorage.getItem("studentId");
+      const sessionValue = sessionStorage.getItem("session");
 
-    
+      if (!studentId || !sessionValue) return alert("Please login first!");
 
-    // Initialize page
-    document.addEventListener('DOMContentLoaded', function() {
-      loadCurrentDate();
-      loadTodaysSchedule();
-      loadWeeklyRoutine();
-    });
-
-    function loadCurrentDate() {
+      // Set current date
       const today = new Date();
-      const options = { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      };
-      document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', options);
-    }
+      const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+      document.getElementById("currentDate").textContent = today.toLocaleDateString("en-US", options);
 
-    function loadTodaysSchedule() {
-      const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-      const todayClasses = weeklySchedule[today] || [];
-      const container = document.getElementById('todayClasses');
-      
-      if (todayClasses.length === 0) {
-        container.innerHTML = `
-          <div class="no-classes-today">
-            <span class="icon">🎉</span>
-            <div>No classes scheduled for today!</div>
-            <small style="opacity: 0.7;">Enjoy your free day</small>
-          </div>
-        `;
-        return;
-      }
+      try {
+        // 1️⃣ Total Courses for the student's session
+        const resCourses = await fetch(`/api/student/${studentId}/courses/count?session=${sessionValue}`);
+        const coursesData = await resCourses.json();
+        document.getElementById("totalCoursesCount").textContent = coursesData.totalCourses || 0;
 
-      const currentTime = new Date();
-      const currentHour = currentTime.getHours();
-      const currentMinute = currentTime.getMinutes();
+        // 2️⃣ Today’s Schedule
+        const todayName = today.toLocaleDateString("en-US", { weekday: "long" });
+        const resSchedule = await fetch(`/api/student/${studentId}/today-schedule?session=${sessionValue}&day=${todayName}`);
+        const scheduleData = await resSchedule.json();
 
-      container.innerHTML = '';
-      
-      todayClasses.forEach((classItem, index) => {
-        const [startTime] = classItem.time.split(' - ');
-        const [startHour, startMinute] = startTime.split(':').map(Number);
-        const startTimeMinutes = startHour * 60 + startMinute;
-        const currentTimeMinutes = currentHour * 60 + currentMinute;
-        
-        let statusClass = 'status-upcoming';
-        let itemClass = 'today-class-item';
-        let statusText = 'Upcoming';
-        
-        // Determine class status
-        if (currentTimeMinutes >= startTimeMinutes && currentTimeMinutes <= startTimeMinutes + 90) {
-          statusClass = 'status-current';
-          itemClass += ' current-class';
-          statusText = 'Current Class';
-        } else if (index === 0 && currentTimeMinutes < startTimeMinutes) {
-          statusClass = 'status-next';
-          itemClass += ' next-class';
-          statusText = 'Next Class';
+        const classes = Array.isArray(scheduleData.todayClasses) ? scheduleData.todayClasses : [];
+        const container = document.getElementById("todayClasses");
+        container.innerHTML = "";
+
+        if (classes.length === 0) {
+          container.innerHTML = `<div class="today-class-item">No classes scheduled for today!</div>`;
+        } else {
+          const nowMinutes = today.getHours() * 60 + today.getMinutes();
+
+          classes.forEach((cls, index) => {
+            const start = cls.start_time.split(":").map(Number);
+            const end = cls.end_time.split(":").map(Number);
+            const startMinutes = start[0]*60 + start[1];
+            const endMinutes = end[0]*60 + end[1];
+
+            let statusClass = "status-upcoming";
+            let itemClass = "today-class-item";
+            let statusText = "Upcoming";
+
+            if (nowMinutes >= startMinutes && nowMinutes <= endMinutes) {
+              statusClass = "status-current";
+              itemClass += " current-class";
+              statusText = "Current Class";
+            } else if (index === 0 && nowMinutes < startMinutes) {
+              statusClass = "status-next";
+              itemClass += " next-class";
+              statusText = "Next Class";
+            }
+
+            const div = document.createElement("div");
+            div.className = itemClass;
+            div.innerHTML = `
+              <div class="class-time-today">${cls.start_time || "00:00"} - ${cls.end_time || "00:00"}</div>
+              <div class="class-subject-today">${cls.course_name || "Unknown"}</div>
+              <div class="class-room-today">📍 Room ${cls.room || "N/A"}</div>
+              <div class="class-status ${statusClass}">${statusText}</div>
+            `;
+            container.appendChild(div);
+          });
         }
-
-        const classElement = document.createElement('div');
-        classElement.className = itemClass;
-        classElement.innerHTML = `
-          <div class="class-time-today">${classItem.time}</div>
-          <div class="class-subject-today">${classItem.course} - ${classItem.teacher}</div>
-          <div class="class-room-today">📍 Room ${classItem.room}</div>
-          <div class="class-status ${statusClass}">${statusText}</div>
-        `;
-        
-        container.appendChild(classElement);
-      });
-    }
-
-    // Logout functionality
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      if (confirm('Are you sure you want to logout?')) {
-        alert('Logged out successfully!');
-        // Redirect to login page
-        window.location.href = '#login';
+      } catch (err) {
+        console.error("Dashboard fetch error:", err);
+        alert("Error fetching dashboard data!");
       }
     });
 
-    // Auto-refresh today's schedule every minute
-    setInterval(loadTodaysSchedule, 60000);
+    document.getElementById("logoutBtn").addEventListener("click", function(e) {
+      e.preventDefault();
+      if (confirm("Are you sure you want to logout?")) {
+        window.location.href = "#login";
+      }
+    });
   </script>
 </body>
 </html>
