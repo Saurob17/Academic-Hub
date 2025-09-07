@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Courses</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9f9f9; padding:20px; }
+    h2 { text-align:center; margin-bottom:20px; }
+    
+    .course-card {
+      background:#fff;
+      padding:15px;
+      margin-bottom:15px;
+      border-radius:8px;
+      box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .course-card h3 { margin:0 0 10px; color:#007BFF; }
+    .course-card p { margin:5px 0; }
+    .outline { display:none; margin-top:10px; color:#444; background:#f1f1f1; padding:10px; border-radius:5px; }
+    button {
+      margin-top:10px;
+      padding:8px 12px;
+      background:#007BFF;
+      border:none;
+      color:#fff;
+      border-radius:5px;
+      cursor:pointer;
+    }
+    button:hover { background:#0056b3; }
+  </style>
+</head>
+<body>
+  <h2>📚 My Semester Courses</h2>
+
+  <div id="coursesContainer">
+    <!-- Dynamic cards আসবে -->
+  </div>
+
+  <script>
+    const semester = sessionStorage.getItem("semester");
+
+    if (!semester) {
+      alert("Semester not found! Please login again.");
+      window.location.href = "login.html";
+    } else {
+      fetch(`/api/courses?semester=${semester}`)
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById("coursesContainer");
+          container.innerHTML = "";
+
+          if (data.length === 0) {
+            container.innerHTML = `<p>No courses for semester ${semester}</p>`;
+          } else {
+            data.forEach(c => {
+              const card = document.createElement("div");
+              card.className = "course-card";
+              card.innerHTML = `
+                <h3>${c.course_code} - ${c.course_name}</h3>
+                <p><strong>Total Classes:</strong> ${c.total_classes}</p>
+                <button onclick="toggleOutline('${c.course_code}')">Show Outline</button>
+                <div class="outline" id="outline-${c.course_code}">Loading...</div>
+              `;
+              container.appendChild(card);
+            });
+          }
+        })
+        .catch(err => console.error("Error:", err));
+    }
+
+    // Outline toggle function
+    function toggleOutline(courseCode) {
+      const outlineDiv = document.getElementById(`outline-${courseCode}`);
+      if (outlineDiv.style.display === "block") {
+        outlineDiv.style.display = "none";
+        return;
+      }
+
+      // First show block
+      outlineDiv.style.display = "block";
+      outlineDiv.textContent = "Loading...";
+
+      fetch(`/api/courses/${courseCode}/outline`)
+        .then(res => res.json())
+        .then(data => {
+          outlineDiv.textContent = data.course_outline || "No outline available.";
+        })
+        .catch(err => {
+          outlineDiv.textContent = "Error loading outline.";
+          console.error(err);
+        });
+    }
+  </script>
+</body>
+</html>

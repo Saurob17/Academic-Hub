@@ -31,24 +31,21 @@ module.exports = (app, db) => {
     });
   });
 
-// Get total courses for student based on session
-app.get("/api/student/:studentId/courses/count", (req, res) => {
-  const studentId = req.params.studentId;
-  const session = req.query.session;
+// কোর্স সংখ্যা (count)
+app.get("/api/v1/student/:studentId/semester/:semester/courses/count", async (req, res) => {
+  const { studentId, semester } = req.params;
 
-  const query = `
-    SELECT COUNT(*) AS total
-    FROM courses
-    WHERE semester = ? 
-  `;
+  try {
+    const [rows] = await db.query(
+      "SELECT COUNT(*) AS totalCourses FROM courses WHERE semester = ?",
+      [semester]
+    );
 
-  db.query(query, [session], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ totalCourses: result[0]?.total || 0 });
-  });
+    res.json({ totalCourses: rows[0].totalCourses });
+  } catch (err) {
+    res.status(500).json({ error: "Database error" });
+  }
 });
-
-
 
   
  
@@ -146,6 +143,34 @@ app.get("/api/routine/:day", (req, res) => {
     res.json(results);
   });
 });
+
+
+
+
+
+
+
+// ✅ All courses by semester
+app.get("/api/courses", (req, res) => {
+  const semester = req.query.semester;
+  const query = "SELECT course_code, course_name, total_classes FROM courses WHERE semester = ?";
+  db.query(query, [semester], (err, result) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    res.json(result);
+  });
+});
+
+// ✅ Course outline by course_code
+app.get("/api/courses/:courseCode/outline", (req, res) => {
+  const courseCode = req.params.courseCode;
+  const query = "SELECT course_outline FROM courses WHERE course_code = ?";
+  db.query(query, [courseCode], (err, result) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+    if (result.length === 0) return res.status(404).json({ error: "Course not found" });
+    res.json(result[0]);
+  });
+});
+
 
 
 };

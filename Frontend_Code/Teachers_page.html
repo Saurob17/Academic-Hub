@@ -52,7 +52,7 @@
         margin: 20px 0;
       }
       .stat-card {
-        background: rgba(142, 155, 155, 0.692);
+        background: rgba(220, 227, 228, 0.692);
         padding: 25px;
         border-radius: 15px;
         box-shadow: 0 5px 20px rgba(85, 77, 77, 0.1);
@@ -239,6 +239,8 @@
       </main>
     </div>
 
+
+    
     <!-- JS -->
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
@@ -301,12 +303,12 @@
               }</div>
       <div class="class-subject-today">${cls.course_name || "Unknown"}</div>
       <div class="class-room-today">📍 Room ${cls.room || "N/A"}</div>
-     
+                     
     `;
               container.appendChild(div);
             }
           }
-        } catch (err) {
+        } catch (err) {   
           console.error("Dashboard fetch error:", err);
           alert("Error fetching dashboard data!");
         }
