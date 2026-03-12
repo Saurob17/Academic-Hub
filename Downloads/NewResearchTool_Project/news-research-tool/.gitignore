@@ -1,0 +1,99 @@
+# ── Environment & Secrets ──────────────────────────────────────────────────────
+.env
+*.env
+.env.*
+
+# ── Python Virtual Environments ────────────────────────────────────────────────
+venv/
+env/
+.venv/
+ENV/
+.ENV/
+virtualenv/
+
+# ── Python Cache & Bytecode ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# ── FAISS / Pickle / Vector Store Files ────────────────────────────────────────
+*.pkl
+*.pickle
+*.faiss
+faiss_store_openai.pkl
+
+# ── Jupyter Notebook Checkpoints ───────────────────────────────────────────────
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# ── Distribution / Build ───────────────────────────────────────────────────────
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# ── Pytest / Coverage ──────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# ── Type Checkers & Linters ────────────────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+
+# ── IDEs & Editors ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS Files ───────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Logs ───────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Large Local Project Files ──────────────────────────────────────────────────
+data/
+datasets/
+uploads/
+tmp/
+temp/
+cache/
+.cache/
+artifacts/
+storage/
+chroma/
+*.db
+*.sqlite3
+*.parquet
+
+# ── Node / Frontend (if any) ───────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+.nuxt/
+
+# ── Virtual Env Output / Site Packages ────────────────────────────────────────
+site-packages/
+lib/python*/
+include/
+bin/
+Scripts/
+pyvenv.cfg
+
+# ── Model Files / Large Binaries ──────────────────────────────────────────────
+*.bin
+*.pt
+*.pth
+*.h5
+*.onnx
+*.safetensors
+
+# ── Streamlit ─────────────────────────────────────────────────────────────────
+.streamlit/secrets.toml
